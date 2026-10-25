@@ -1,22 +1,28 @@
 import { ImporterApplication } from './importer-app.js';
 import { checkEnvironment, MODULE_ID } from './import-service.js';
+import { actorTypeDialogOptions } from './dialogs.js';
 
-let application;
+class ActorTypeDialog extends foundry.applications.api.DialogV2 {
+  constructor(options = {}) {
+    super({ ...options, ...actorTypeDialogOptions(type => new ImporterApplication({ actorType: type }).render({ force: true })) });
+  }
+}
+
 function openImporter() {
   try {
     checkEnvironment(game);
-    application ??= new ImporterApplication();
-    return application.render({ force: true });
+    return new ActorTypeDialog().render({ force: true });
   } catch (error) {
     ui.notifications.error(error.message);
   }
 }
 
 Hooks.once('init', () => {
+  game.settings.register(MODULE_ID, 'itemAliases', { scope: 'world', config: false, type: Object, default: {} });
   game.settings.registerMenu(MODULE_ID, 'importer', {
     name: 'Masowy import aktorów CoC7', label: 'Otwórz importer',
     hint: 'Wklej bloki statystyk lub odczytaj wybrane strony PDF.',
-    icon: 'fas fa-file-import', type: ImporterApplication, restricted: true
+    icon: 'fas fa-file-import', type: ActorTypeDialog, restricted: true
   });
 });
 

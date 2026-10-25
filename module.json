@@ -1,8 +1,8 @@
 {
   "id": "mass-import-actors-cthulhu",
   "title": "CoC7 — Masowy import aktorów",
-  "description": "Importuj postacie i stworzenia z tekstu lub wybranych stron PDF. Wersja rozwojowa.",
-  "version": "0.1.0",
+  "description": "Import aktorów CoC7 z wybranych stron PDF lub tekstu, z wyborem typu i dopasowaniem gotowych przedmiotów PL–EN.",
+  "version": "0.2.0",
   "authors": [{ "name": "Bratkowski" }],
   "compatibility": { "minimum": "14.364", "maximum": "14" },
   "relationships": {

@@ -1,3 +1,6 @@
+import { requireActorType } from './actor-types.js';
+import { extractItemReferences } from './item-references.js';
+
 const CHARACTERISTICS = {
   STR: 'str', SIŁ: 'str', SIL: 'str', S: 'str', CON: 'con', KON: 'con',
   SIZ: 'siz', BC: 'siz', DEX: 'dex', ZR: 'dex', APP: 'app', WYG: 'app',
@@ -16,19 +19,20 @@ export function splitBlocks(text) {
   return String(text).replace(/\r\n?/g, '\n').split(/^\s*-{3,}\s*$/m).map(t => t.trim()).filter(Boolean);
 }
 
-/** First MVP: 7e PL/EN characteristics and attributes. Unsupported content stays in keeper notes. */
+/** Parse 7e values; items are resolved separately against the user's existing catalog. */
 export function parseBlock(text, type = 'npc') {
-  if (!['npc', 'creature'].includes(type)) throw new Error('Obsługiwane typy: npc i creature.');
+  requireActorType(type);
   const normalized = String(text).normalize('NFKC').replace(/\u00a0/g, ' ').trim();
+  const references = extractItemReferences(normalized);
   const name = normalized.split(/\r?\n/)[0]?.replace(/^#+\s*/, '').trim();
   const errors = [];
-  const warnings = [];
+  const warnings = [...references.warnings];
   if (!name || STAT.test(name)) errors.push('Pierwsza linia musi zawierać nazwę postaci, przed statystykami.');
   STAT.lastIndex = 0;
   const characteristics = {};
   const attribs = {};
   const seen = new Set();
-  for (const match of normalized.matchAll(STAT)) {
+  for (const match of references.statText.matchAll(STAT)) {
     const label = match[1].toUpperCase();
     const key = CHARACTERISTICS[label] ?? ATTRIBUTES[label];
     const value = Number(match[2]);
@@ -41,18 +45,26 @@ export function parseBlock(text, type = 'npc') {
       if (['mov', 'san'].includes(key)) attribs[key].auto = false;
     }
   }
-  if (Object.keys(characteristics).length < 3) errors.push('Rozpoznano mniej niż 3 cechy. Popraw tekst lub skróty statystyk.');
+  if (type !== 'vehicle' && Object.keys(characteristics).length < 3) errors.push('Rozpoznano mniej niż 3 cechy. Popraw tekst lub skróty statystyk.');
   const missing = ['str', 'con', 'siz', 'dex', 'app', 'int', 'pow', 'edu'].filter(k => !(k in characteristics));
-  if (missing.length) warnings.push(`Brak cech: ${missing.join(', ').toUpperCase()}.`);
-  warnings.push('Umiejętności, broń, pancerz i zaklęcia pozostają w notatkach Strażnika; ta wersja nie tworzy z nich przedmiotów.');
+  if (type !== 'vehicle' && missing.length) warnings.push(`Brak cech: ${missing.join(', ').toUpperCase()}.`);
+  let system = { characteristics, attribs, description: { keeper: `<pre>${escapeHtml(normalized)}</pre>` } };
+  if (type === 'vehicle') {
+    const stats = {};
+    if (attribs.hp) stats.hp = attribs.hp.value;
+    if (attribs.mov) stats.mov = attribs.mov.value;
+    for (const [key, labels] of [['build', 'Krzepa|Build'], ['armor', 'Pancerz|Armor']]) {
+      const match = references.statText.match(new RegExp(`(?:^|\\s)(?:${labels})\\s*:?\\s*(\\d+)`, 'iu'));
+      if (match) stats[key] = key === 'build' ? { value: Number(match[1]), current: Number(match[1]) } : { value: Number(match[1]) };
+    }
+    if (!Object.keys(stats).length) errors.push('Pojazd wymaga co najmniej jednej statystyki: PW/HP, Ruch/MOV, Krzepa/Build lub Pancerz/Armor.');
+    system = { stats, description: system.description };
+  }
   return {
-    text: normalized, name: name || '(bez nazwy)', errors: [...new Set(errors)], warnings,
+    text: normalized, name: name || '(bez nazwy)', errors: [...new Set(errors)], warnings, requests: references.requests,
     actor: {
       name, type,
-      system: {
-        characteristics, attribs,
-        description: { keeper: `<pre>${escapeHtml(normalized)}</pre>` }
-      }
+      system
     }
   };
 }

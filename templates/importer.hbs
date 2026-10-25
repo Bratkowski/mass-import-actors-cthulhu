@@ -1,7 +1,8 @@
 <div class="importer-body">
-  <p class="notice">Wersja rozwojowa: import NPC i stworzeń, cechy i podstawowe zasoby PL/EN. Pozostałe dane zachowujemy w notatkach Strażnika.</p>
-  <fieldset>
-    <legend>1. PDF — wybierz strony</legend>
+  <p class="notice"><strong>Typ tej partii: {{actorTypeLabel}}</strong>. Aby wybrać inny typ, zamknij okno i uruchom nowy import.</p>
+  <fieldset data-pdf-drop>
+    <legend>1. Wczytaj PDF i wybierz strony</legend>
+    <p>Upuść tutaj plik PDF lub wybierz go przyciskiem poniżej.</p>
     <label>Plik PDF <input type="file" name="pdf" accept=".pdf,application/pdf"></label>
     {{#if pageCount}}<p>{{fileName}} — {{pageCount}} stron</p>{{/if}}
     <label>Strony pliku <input name="ranges" type="text" value="{{ranges}}" placeholder="np. 3, 7-9, 12"></label>
@@ -14,21 +15,31 @@
     <label>Tekst statystyk <textarea name="text" rows="10" spellcheck="false" placeholder="Jan Przykładowy&#10;SIŁ 50 KON 60 BC 55 ZR 60 WYG 65 INT 70 MOC 60 WYK 75&#10;PW 11 PM 12 POC 60 RUCH 8&#10;---&#10;Kolejna postać…">{{text}}</textarea></label>
     <p class="hint">Źródło: {{source}}</p>
     <div class="options-row">
-      <label>Typ aktora <select name="actorType"><option value="npc" {{#if npc}}selected{{/if}}>NPC</option><option value="creature" {{#if creature}}selected{{/if}}>Stworzenie</option></select></label>
       <label>Folder <select name="folder"><option value="">Bez folderu</option>{{#each folders}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
     </div>
     <button type="button" data-command="preview">Przygotuj podgląd</button>
   </fieldset>
   <section data-preview aria-live="polite">
     {{#if hasEntries}}
-    <h3>3. Wybierz postacie i sprawdź wynik</h3>
+    <h3>3. Sprawdź przedmioty, wybierz aktorów i importuj</h3>
+    <p class="hint">Katalog: {{catalogCount}} przedmiotów ze świata, aktorów i kompendiów. Dopasowania PL–EN możesz zapamiętywać. Brakujące lub niejednoznaczne przedmioty wymagają wyboru albo świadomego pominięcia.</p>
+    {{#each catalogWarnings}}<p class="entry-error">{{this}}</p>{{/each}}
     <table><thead><tr><th>Import</th><th>Postać / wynik</th></tr></thead><tbody>
       {{#each entries}}<tr>
         <td><input type="checkbox" data-entry="{{index}}" aria-label="Importuj {{name}}" {{#if selected}}checked{{/if}} {{#if disabled}}disabled{{/if}}></td>
         <td><strong>{{name}}</strong> <span>{{status}}</span>
           <p>{{summary}}</p>
+          {{#if pending}}<p class="entry-error">Rozstrzygnij dopasowania przedmiotów przed importem.</p>{{/if}}
           {{#each errors}}<p class="entry-error">{{this}}</p>{{/each}}
           {{#each warnings}}<p class="hint">{{this}}</p>{{/each}}
+          {{#each requests}}
+          <div class="item-match">
+            <p><strong>{{typeLabel}}: {{name}}</strong>{{#if hasValue}} — {{value}}%{{/if}}
+              {{#if requiredBy}}<span class="hint">(umiejętność wymagana przez broń)</span>{{/if}}</p>
+            <p>→ {{matchedName}}</p><p class="hint">{{reason}}</p>
+            <button type="button" data-command="match" data-actor="{{entryIndex}}" data-request="{{key}}" {{#if locked}}disabled{{/if}}>Wybierz / zmień / pomiń</button>
+          </div>
+          {{/each}}
           <details><summary>Dane aktora</summary><pre>{{text}}</pre></details>
         </td>
       </tr>{{/each}}
@@ -36,5 +47,5 @@
     {{/if}}
   </section>
   <button type="button" data-command="import" {{#unless canImport}}disabled{{/unless}}>Importuj zaznaczone postacie</button>
-  <p class="hint">Import tworzy nowych aktorów. Nie nadpisuje istniejących. Udane wiersze są blokowane przy ponowieniu po błędzie.</p>
+  <p class="hint">Import tworzy nowych aktorów i kopie wybranych przedmiotów. Nie zmienia wzorców. Udane wiersze są blokowane przy ponowieniu po błędzie. Obrażenia z PDF pozostają w notatkach; broń zachowuje mechanikę wybranego wzorca.</p>
 </div>

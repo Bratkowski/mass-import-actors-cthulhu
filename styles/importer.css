@@ -10,3 +10,6 @@
 .coc-mass-importer .entry-error { color: var(--color-level-error, #c33); }
 .coc-mass-importer td { vertical-align: top; padding: 0.5rem; }
 .coc-mass-importer pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 15rem; overflow-y: auto; }
+.coc-mass-importer [data-pdf-drop] { border: 2px dashed var(--color-border-light-primary, #9d7e46); }
+.coc-mass-importer .item-match { border-inline-start: 2px solid #9d7e46; padding: 0.4rem 0.7rem; margin: 0.6rem 0; }
+.coc-mass-importer .item-match p { margin: 0.25rem 0; }

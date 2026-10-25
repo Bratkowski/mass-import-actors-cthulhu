@@ -22,6 +22,20 @@ Pola sprawdzone w tagu 8.16:
 - [global-system.js](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/actor/global-system.js): `system.characteristics.<str|con|siz|dex|app|int|pow|edu>.value`, `system.attribs.<hp|mp|san|mov|lck>`. HP i MP mają `value`, `max`, `auto`.
 - [npc-system.js](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/actor/npc-system.js): `system.description.keeper` i model NPC.
 - [creature-system.js](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/actor/creature-system.js): dziedziczy model NPC.
+- [character-system.js](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/actor/character-system.js): postać gracza również korzysta ze wspólnych cech i zasobów; pozostałe dane postaci inicjalizuje CoC7.
+- [vehicle-system.js](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/actor/vehicle-system.js): pojazd ma osobne `system.stats.hp`, `mov`, `build.value/current` i `armor.value`.
+
+## Gotowe przedmioty i nazwy PL–EN
+
+Wersja 0.2.0 wymaga wyboru jednego z czterech typów w modalnym DialogV2 przed otwarciem importera. `container` pozostaje poza zakresem.
+
+Przejrzano lokalny przykładowy eksport BN dostarczony przez użytkownika. Eksport potwierdza osadzone `items`, flagi `flags.CoC7.cocidFlag` oraz broń wskazującą umiejętność przez `system.skill.main.id` i `name`. Pliku użytkownika ani jego opisów nie kopiujemy do repozytorium.
+
+[Model umiejętności](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/item/skill-system.js) wylicza wartość z sumy `system.adjustments`. Przy wpisanym procencie ustawiamy `base` i `adjustments.base`, a pozostałe przyrosty zerujemy. [Model broni](https://github.com/Miskatonic-Investigative-Society/CoC7-FoundryVTT/blob/8.16/coc7/models/item/weapon-system.js) wskazuje główną i alternatywną umiejętność przez `skill.main` i `skill.alternativ`.
+
+Katalog obejmuje świat, osadzone przedmioty aktorów i indeksy kompendiów. Dopasowanie używa zapisanych UUID, zgodnych nazw, ograniczonego słownika PL–EN i stabilnych CoCID. Ogólnych CoCID typu `language-any` nie używamy do łączenia różnych specjalizacji. Niejednoznaczne wyniki wymagają wyboru. Wskazania są zapisywane lokalnie w ustawieniu świata `itemAliases`; nie korzystamy z usług tłumaczenia.
+
+Przed zapisem przygotowywane są wszystkie kopie przedmiotów. Dostają nowe ID, a broń jest przepinana na ID właściwych umiejętności. Jedno wywołanie Actor.create otrzymuje gotowe `items` i `keepEmbeddedIds: true`, zgodnie z [DatabaseCreateOperation](https://foundryvtt.com/api/interfaces/foundry.abstract.types.DatabaseCreateOperation.html). Opisy, obrażenia i koszty pochodzą z wzorców. Nie zmieniamy oryginałów.
 
 ## Istniejący importer
 
@@ -40,8 +54,10 @@ Ekstrakcja nie gwarantuje kolejności czytania kolumn. Użytkownik sprawdza teks
 1. Włączyć moduł w testowym świecie Foundry 14.364 / CoC7 8.16 jako GM.
 2. Sprawdzić otwarcie okna z ustawień i katalogu aktorów.
 3. PDF z postaciami na kilku stronach: wybrać nieciągły zakres i sprawdzić, że tekst z pozostałych stron nie trafił do podglądu.
-4. Sprawdzić import NPC i stworzenia, nazwy, cechy, zasoby i notatki.
+4. Sprawdzić wszystkie cztery typy: postać gracza, BN, stworzenie i pojazd, w tym obowiązkowy modal i anulowanie wyboru.
 5. Zmienić zakres po odczycie, sprawdzić unieważnienie danych i blokadę importu bez nowego podglądu.
 6. Sprawdzić duplikat nazwy i częściowy błąd zapisu; ponowienie ma ominąć udane wiersze.
+7. Dopasować polską umiejętność i broń do angielskich wzorców, polskie zaklęcie do polskiego wzorca; sprawdzić kopie opisów i mechaniki oraz poprawność ID umiejętności broni.
+8. Sprawdzić zapamiętanie i zmianę pary nazw, pominięcie przedmiotu, usunięty wzorzec, kilka równorzędnych dopasowań i sprzeczne wartości jednej umiejętności.
 
 Testy jednostkowe obejmują zakresy, ekstrakcję na atrapach PDF, parser i zapis na atrapach Foundry. Test w uruchomionym Foundry pozostaje osobnym krokiem.

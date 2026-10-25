@@ -1,0 +1,12 @@
+node_modules/
+vendor/pdfjs/
+dist/
+.cache/
+.tmp/
+*.pdf
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db

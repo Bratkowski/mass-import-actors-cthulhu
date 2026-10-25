@@ -1,0 +1,40 @@
+<div class="importer-body">
+  <p class="notice">Wersja rozwojowa: import NPC i stworzeń, cechy i podstawowe zasoby PL/EN. Pozostałe dane zachowujemy w notatkach Strażnika.</p>
+  <fieldset>
+    <legend>1. PDF — wybierz strony</legend>
+    <label>Plik PDF <input type="file" name="pdf" accept=".pdf,application/pdf"></label>
+    {{#if pageCount}}<p>{{fileName}} — {{pageCount}} stron</p>{{/if}}
+    <label>Strony pliku <input name="ranges" type="text" value="{{ranges}}" placeholder="np. 3, 7-9, 12"></label>
+    <p class="hint">Numery stron w pliku PDF, liczone od 1. Mogą różnić się od numerów wydrukowanych w książce. Puste pole nie wybiera żadnej strony.</p>
+    <button type="button" data-command="extract">Odczytaj wybrane strony</button>
+  </fieldset>
+  <fieldset>
+    <legend>2. Sprawdź tekst i podział postaci</legend>
+    <p class="hint">Pierwsza linia każdego bloku to nazwa. Oddziel postacie linią <code>---</code>. Po odczycie PDF popraw kolejność kolumn i usuń nagłówki. Możesz też wkleić tekst ręcznie.</p>
+    <label>Tekst statystyk <textarea name="text" rows="10" spellcheck="false" placeholder="Jan Przykładowy&#10;SIŁ 50 KON 60 BC 55 ZR 60 WYG 65 INT 70 MOC 60 WYK 75&#10;PW 11 PM 12 POC 60 RUCH 8&#10;---&#10;Kolejna postać…">{{text}}</textarea></label>
+    <p class="hint">Źródło: {{source}}</p>
+    <div class="options-row">
+      <label>Typ aktora <select name="actorType"><option value="npc" {{#if npc}}selected{{/if}}>NPC</option><option value="creature" {{#if creature}}selected{{/if}}>Stworzenie</option></select></label>
+      <label>Folder <select name="folder"><option value="">Bez folderu</option>{{#each folders}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></label>
+    </div>
+    <button type="button" data-command="preview">Przygotuj podgląd</button>
+  </fieldset>
+  <section data-preview aria-live="polite">
+    {{#if hasEntries}}
+    <h3>3. Wybierz postacie i sprawdź wynik</h3>
+    <table><thead><tr><th>Import</th><th>Postać / wynik</th></tr></thead><tbody>
+      {{#each entries}}<tr>
+        <td><input type="checkbox" data-entry="{{index}}" aria-label="Importuj {{name}}" {{#if selected}}checked{{/if}} {{#if disabled}}disabled{{/if}}></td>
+        <td><strong>{{name}}</strong> <span>{{status}}</span>
+          <p>{{summary}}</p>
+          {{#each errors}}<p class="entry-error">{{this}}</p>{{/each}}
+          {{#each warnings}}<p class="hint">{{this}}</p>{{/each}}
+          <details><summary>Dane aktora</summary><pre>{{text}}</pre></details>
+        </td>
+      </tr>{{/each}}
+    </tbody></table>
+    {{/if}}
+  </section>
+  <button type="button" data-command="import" {{#unless canImport}}disabled{{/unless}}>Importuj zaznaczone postacie</button>
+  <p class="hint">Import tworzy nowych aktorów. Nie nadpisuje istniejących. Udane wiersze są blokowane przy ponowieniu po błędzie.</p>
+</div>

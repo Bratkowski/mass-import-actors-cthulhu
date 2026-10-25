@@ -1,0 +1,12 @@
+{
+  "name": "mass-import-actors-cthulhu",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bulk actor import from text and selected PDF pages for Foundry VTT and CoC7.",
+  "scripts": {
+    "test": "node --test",
+    "build": "node tools/build.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

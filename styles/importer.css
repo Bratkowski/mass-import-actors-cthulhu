@@ -1,0 +1,12 @@
+.coc-mass-importer .window-content { overflow-y: auto; }
+.coc-mass-importer .importer-body { display: flex; flex-direction: column; gap: 0.8rem; padding: 0.5rem; }
+.coc-mass-importer fieldset { display: flex; flex-direction: column; gap: 0.6rem; padding: 0.8rem; }
+.coc-mass-importer label { display: flex; flex-direction: column; gap: 0.3rem; }
+.coc-mass-importer textarea { min-height: 12rem; width: 100%; resize: vertical; font-family: monospace; }
+.coc-mass-importer .options-row { display: flex; gap: 1rem; }
+.coc-mass-importer .options-row label { flex: 1; }
+.coc-mass-importer .hint { font-size: 0.85rem; opacity: 0.85; margin: 0.2rem 0; }
+.coc-mass-importer .notice { border-inline-start: 3px solid #9d7e46; padding-inline-start: 0.7rem; }
+.coc-mass-importer .entry-error { color: var(--color-level-error, #c33); }
+.coc-mass-importer td { vertical-align: top; padding: 0.5rem; }
+.coc-mass-importer pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 15rem; overflow-y: auto; }

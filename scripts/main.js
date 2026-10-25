@@ -21,7 +21,7 @@ Hooks.once('init', () => {
   game.settings.register(MODULE_ID, 'itemAliases', { scope: 'world', config: false, type: Object, default: {} });
   game.settings.registerMenu(MODULE_ID, 'importer', {
     name: 'Masowy import aktorów CoC7', label: 'Otwórz importer',
-    hint: 'Wklej bloki statystyk lub odczytaj wybrane strony PDF.',
+    hint: 'Wczytaj listę JSON i przypisz wzorce z katalogu Items.',
     icon: 'fas fa-file-import', type: ActorTypeDialog, restricted: true
   });
 });

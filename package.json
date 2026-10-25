@@ -1,9 +1,9 @@
 {
   "name": "mass-import-actors-cthulhu",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Bulk actor import from text and selected PDF pages for Foundry VTT and CoC7.",
+  "description": "Bulk JSON actor import with world Items drag and drop for Foundry VTT and CoC7.",
   "scripts": {
     "test": "node --test",
     "build": "node tools/build.mjs"

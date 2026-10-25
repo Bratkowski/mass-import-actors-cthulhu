@@ -1,13 +1,13 @@
-Pierwsza paczka instalacyjna do Forge Bazaar (Install from Manifest) i Foundry VTT.
+Importer list aktorów JSON z przypisywaniem wzorców wyłącznie z katalogu Items świata.
 
-Manifest instalacyjny:
+- Obsługa tablicy eksportów Foundry, pojedynczego eksportu aktora i uproszczonej listy JSON.
+- Wyszukiwanie oraz przeciąganie umiejętności, broni i zaklęć z Items.
+- Procenty umiejętności pobierane z danych konkretnego aktora; wzorce pozostają bez zmian.
+- Powiązania broni przepinane na nowe ID umiejętności.
+- Usunięto odczyt dokumentów, interpretację bloków statystyk i bibliotekę PDF.js.
+- Wyszukiwarka nie korzysta z ekwipunku aktorów ani z kompendiów; wzorce z kompendiów należy najpierw dodać do Items.
+
+Stały manifest instalacyjny:
 https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/latest/download/module.json
 
-Paczka zawiera cały moduł razem z PDF.js. Nie trzeba budować kodu lokalnie.
-
-- Obowiązkowy wybór typu: postać gracza, BN, stworzenie lub pojazd.
-- Wczytywanie PDF i wybór konkretnych stron pliku.
-- Podgląd i dopasowanie gotowych umiejętności, broni i zaklęć przez nazwy, CoCID i zapamiętywane wskazania PL–EN.
-- Instrukcja obsługi w README.
-
-Wersja rozwojowa dla Foundry VTT 14.364+ w linii 14 i CoC7 8.16. Wymaga testu w działającym Foundry; kompatybilność nie jest jeszcze oznaczona jako verified.
+Wersja rozwojowa dla Foundry VTT 14.364+ w linii 14 i CoC7 8.16. Pełna weryfikacja w działającym Foundry pozostaje osobnym krokiem.

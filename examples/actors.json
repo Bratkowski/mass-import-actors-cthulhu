@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Jan Przykładowy",
+    "characteristics": { "str": 50, "con": 60, "siz": 55, "dex": 60, "app": 65, "int": 70, "pow": 60, "edu": 75 },
+    "attribs": { "hp": 11, "mp": 12, "san": 60, "mov": 8 },
+    "skills": [
+      { "name": "Nasłuchiwanie", "value": 60 },
+      { "name": "Broń Palna (Krótka)", "value": 55 }
+    ],
+    "weapons": [{ "name": "Rewolwer .38", "skill": "Broń Palna (Krótka)" }],
+    "spells": ["Znak Starszych Bogów"],
+    "notes": "Przykładowe dane do sprawdzenia importu."
+  },
+  {
+    "name": "Anna Przykładowa",
+    "characteristics": { "str": 45, "con": 60, "siz": 50, "dex": 65, "app": 60, "int": 75, "pow": 65, "edu": 80 },
+    "skills": [
+      { "name": "Nasłuchiwanie", "value": 80 },
+      { "name": "Broń Palna (Krótka)", "value": 35 }
+    ],
+    "weapons": [{ "name": "Rewolwer .38", "skill": "Broń Palna (Krótka)" }],
+    "spells": []
+  }
+]

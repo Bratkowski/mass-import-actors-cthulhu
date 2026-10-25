@@ -2,8 +2,26 @@
 
 Moduł Foundry VTT do masowego importu aktorów z tekstu lub **wybranych stron PDF**, z przypisywaniem gotowych umiejętności, broni i zaklęć.
 
-Cel: **Foundry VTT 14.364 + system CoC7 8.16**. Wersja 0.2.0 jest wersją rozwojową.
+Cel: **Foundry VTT 14.364 + system CoC7 8.16**. Wersja 0.2.1 jest wersją rozwojową.
 Testy automatyczne nie zastępują testu w działającym Foundry. Nie oznaczamy jeszcze wersji jako `verified` w manifeście.
+
+## Instalacja w Forge Bazaar
+
+1. Otwórz **Bazaar → Install from Manifest** (instalacja własnego modułu).
+2. Wklej ten adres do pola **Manifest URL**:
+
+   ```text
+   https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/latest/download/module.json
+   ```
+
+3. Kliknij **Install**. Użyj instalacji z podanego manifestu, jeżeli Forge proponuje zamiast niej instalację wersji z katalogu Bazaar.
+4. Uruchom świat z systemem CoC7 8.16. W **Zarządzaniu modułami / Manage Modules** włącz **CoC7 — Masowy import aktorów** i zapisz zmiany.
+
+Ten sam adres działa w standardowym Foundry: **Add-on Modules → Install Module → Manifest URL**.
+Link do głównej strony repozytorium GitHub służy do przeglądania kodu; do instalacji używa się powyższego linku do manifestu. Paczka ZIP zawiera już bibliotekę PDF.js.
+
+To instalacja własnego modułu przez Bazaar. Moduł nie został jeszcze zgłoszony do publicznej wyszukiwarki pakietów Forge/Foundry.
+Przy aktualizacjach używaj sprawdzania aktualizacji modułów; stały adres manifestu wskazuje najnowsze opublikowane wydanie.
 
 ## Instrukcja obsługi
 
@@ -115,7 +133,9 @@ Pliki PDF, cache, biblioteka dostawcy i paczki wynikowe są pomijane w Git.
 
 GitHub Actions uruchamia testy i przygotowuje artefakt do pobrania. Na GitHubie otwórz **Actions → Check and package → zakończony przebieg → Artifacts → mass-import-actors-cthulhu**. Rozpakuj artefakt tak, aby `module.json` znajdował się bezpośrednio w `Data/modules/mass-import-actors-cthulhu/`.
 
-Manifest instalacyjny online i automatyczne aktualizacje pojawią się po pierwszym wydaniu GitHub Release. Uruchomienie w świecie wymaga konta GM. Wersja rozwojowa obsługuje dokładnie CoC7 8.16.
+Gotowe paczki i manifesty są także dostępne w [GitHub Releases](https://github.com/Bratkowski/mass-import-actors-cthulhu/releases). Uruchomienie w świecie wymaga konta GM. Wersja rozwojowa obsługuje dokładnie CoC7 8.16.
+
+Publikacja następnej wersji: zaktualizuj wersję w `module.json` i `package.json`, adres `download` oraz `docs/release-notes.md`, a następnie wypchnij tag `vX.Y.Z`. Workflow wydania uruchomi testy, zbuduje i sprawdzi paczkę, a potem opublikuje `module.json` i `module.zip` w GitHub Release.
 
 ## Rozwiązywanie problemów
 

@@ -1,0 +1,32 @@
+name: Publish installable release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run build
+      - run: node tools/validate-release.mjs "$GITHUB_REF_NAME"
+      - name: Package module with manifest at archive root
+        working-directory: dist/mass-import-actors-cthulhu
+        run: zip -q -r ../module.zip .
+      - name: Publish manifest and complete module archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          dist/module.zip module.json
+          --verify-tag --latest
+          --title "$GITHUB_REF_NAME — instalacja w Forge i Foundry"
+          --notes-file docs/release-notes.md

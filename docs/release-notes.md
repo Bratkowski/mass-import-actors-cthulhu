@@ -1,11 +1,10 @@
-Importer list aktorów JSON z przypisywaniem wzorców wyłącznie z katalogu Items świata.
+Wersja 0.3.1 — obsługa talentów CoC7.
 
-- Obsługa tablicy eksportów Foundry, pojedynczego eksportu aktora i uproszczonej listy JSON.
-- Wyszukiwanie oraz przeciąganie umiejętności, broni i zaklęć z Items.
-- Procenty umiejętności pobierane z danych konkretnego aktora; wzorce pozostają bez zmian.
-- Powiązania broni przepinane na nowe ID umiejętności.
-- Usunięto odczyt dokumentów, interpretację bloków statystyk i bibliotekę PDF.js.
-- Wyszukiwarka nie korzysta z ekwipunku aktorów ani z kompendiów; wzorce z kompendiów należy najpierw dodać do Items.
+- Lista JSON przyjmuje `talents: ["Nazwa talentu", {"name":"Drugi talent"}]`.
+- Obsługiwane są również eksporty `items` z typem `talent`.
+- Talenty można wyszukiwać i przeciągać z Items na aktora lub wiersz przypisania.
+- Dopasowanie talentów obsługuje nazwy, CoCID i zapamiętane wskazania.
+- Kopie zachowują opis, kategorię, efekty i mechanikę wzorca. Talent nie wymaga wartości procentowej.
 
 Stały manifest instalacyjny:
 https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/latest/download/module.json

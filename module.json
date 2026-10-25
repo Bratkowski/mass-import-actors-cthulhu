@@ -2,7 +2,7 @@
   "id": "mass-import-actors-cthulhu",
   "title": "CoC7 — Masowy import aktorów",
   "description": "Masowy import listy aktorów JSON z przeciąganiem i wyszukiwaniem wzorców w Items oraz przypisywaniem procentów każdemu aktorowi.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "authors": [{ "name": "Bratkowski" }],
   "compatibility": { "minimum": "14.364", "maximum": "14" },
   "relationships": {
@@ -12,7 +12,7 @@
   "styles": ["styles/importer.css"],
   "url": "https://github.com/Bratkowski/mass-import-actors-cthulhu",
   "manifest": "https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/latest/download/module.json",
-  "download": "https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/download/v0.3.0/module.zip",
+  "download": "https://github.com/Bratkowski/mass-import-actors-cthulhu/releases/download/v0.3.1/module.zip",
   "readme": "https://github.com/Bratkowski/mass-import-actors-cthulhu/blob/main/README.md",
   "bugs": "https://github.com/Bratkowski/mass-import-actors-cthulhu/issues"
 }

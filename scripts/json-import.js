@@ -58,17 +58,18 @@ function normalizeActor(source, type, index) {
   const add = (item, itemType, sourceIndex) => {
     if (typeof item === 'string') item = { name: item };
     if (!object(item) || typeof item.name !== 'string' || !item.name.trim()) { errors.push(`Nieprawidłowa nazwa przedmiotu ${itemType} (${sourceIndex + 1}).`); return; }
-    if (!ITEM_LABELS[itemType]) { errors.push(`Nieobsługiwany typ przedmiotu: ${itemType}. Obsługiwane: skill, weapon, spell.`); return; }
-    const value = itemType === 'skill' ? exportedSkillValue(item) : item.value === undefined ? undefined : parsePercent(item.value);
-    if (item.value !== undefined && value === undefined) errors.push(`Nieprawidłowy procent dla „${item.name}”. Podaj liczbę nieujemną.`);
+    if (!ITEM_LABELS[itemType]) { errors.push(`Nieobsługiwany typ przedmiotu: ${itemType}. Obsługiwane: ${Object.keys(ITEM_LABELS).join(', ')}.`); return; }
+    const hasPercent = itemType === 'skill' || itemType === 'weapon';
+    const value = itemType === 'skill' ? exportedSkillValue(item) : itemType === 'weapon' && item.value !== undefined ? parsePercent(item.value) : undefined;
+    if (hasPercent && item.value !== undefined && value === undefined) errors.push(`Nieprawidłowy procent dla „${item.name}”. Podaj liczbę nieujemną.`);
     requests.push({ key: String(requests.length), type: itemType, name: item.name.trim(), value,
       sourceId: item._id, cocid: item.cocid ?? item.flags?.CoC7?.cocidFlag?.id,
       originalSkill: item.system?.skill ? structuredClone(item.system.skill) : undefined,
       skillName: item.skill, sourceLinks: {} });
   };
-  for (const field of ['items', 'skills', 'weapons', 'spells']) if (source[field] !== undefined && !Array.isArray(source[field])) errors.push(`Pole ${field} musi być tablicą.`);
+  for (const field of ['items', 'skills', 'weapons', 'spells', 'talents']) if (source[field] !== undefined && !Array.isArray(source[field])) errors.push(`Pole ${field} musi być tablicą.`);
   for (const [i, item] of (Array.isArray(source.items) ? source.items : []).entries()) add(item, item?.type, i);
-  for (const [field, itemType] of [['skills', 'skill'], ['weapons', 'weapon'], ['spells', 'spell']]) {
+  for (const [field, itemType] of [['skills', 'skill'], ['weapons', 'weapon'], ['spells', 'spell'], ['talents', 'talent']]) {
     for (const [i, item] of (Array.isArray(source[field]) ? source[field] : []).entries()) add(item, itemType, i);
   }
   const sourceIds = requests.map(r => r.sourceId).filter(Boolean);

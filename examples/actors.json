@@ -9,6 +9,7 @@
     ],
     "weapons": [{ "name": "Rewolwer .38", "skill": "Broń Palna (Krótka)" }],
     "spells": ["Znak Starszych Bogów"],
+    "talents": ["Przykładowy talent"],
     "notes": "Przykładowe dane do sprawdzenia importu."
   },
   {

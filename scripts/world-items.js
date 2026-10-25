@@ -1,4 +1,4 @@
-export const ITEM_LABELS = Object.freeze({ skill: 'Umiejętność', weapon: 'Broń', spell: 'Zaklęcie' });
+export const ITEM_LABELS = Object.freeze({ skill: 'Umiejętność', weapon: 'Broń', spell: 'Zaklęcie', talent: 'Talent' });
 
 export function isWorldItemUuid(uuid) {
   return typeof uuid === 'string' && /^Item\.[A-Za-z0-9_-]+$/.test(uuid);
@@ -17,7 +17,7 @@ export function resolveWorldItem(game, uuid) {
 export function itemFromDrop(data, game, expectedType) {
   if (data?.type !== 'Item') throw new Error('Przeciągnij przedmiot z katalogu Items.');
   const item = resolveWorldItem(game, data.uuid);
-  if (!ITEM_LABELS[item.type]) throw new Error('Obsługiwane Items: umiejętności, broń i zaklęcia.');
+  if (!ITEM_LABELS[item.type]) throw new Error('Obsługiwane Items: umiejętności, broń, zaklęcia i talenty.');
   if (expectedType && item.type !== expectedType) throw new Error(`Ten wiersz wymaga typu: ${ITEM_LABELS[expectedType] ?? expectedType}.`);
   return item;
 }

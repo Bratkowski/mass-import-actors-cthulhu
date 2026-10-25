@@ -13,7 +13,7 @@
   <section data-preview aria-live="polite">
     {{#if hasEntries}}
     <h3>2. Przypisz przedmioty z katalogu Items</h3>
-    <p class="hint">Dostępne wzorce: {{catalogCount}}. Otwórz zakładkę Items w Foundry i przeciągnij przedmiot na odpowiedni wiersz poniżej albo użyj wyszukiwarki. Wartości procentowe są osobne dla każdego aktora.</p>
+    <p class="hint">Dostępne wzorce: {{catalogCount}}. Przeciągnij umiejętność, broń, zaklęcie lub talent z zakładki Items na odpowiedni wiersz albo użyj wyszukiwarki. Procenty umiejętności są osobne dla każdego aktora; talenty nie wymagają procentów.</p>
     <table><thead><tr><th>Import</th><th>Aktor i przypisania</th></tr></thead><tbody>
       {{#each entries}}<tr>
         <td><input type="checkbox" data-entry="{{index}}" aria-label="Importuj {{name}}" {{#if selected}}checked{{/if}} {{#if disabled}}disabled{{/if}}></td>

@@ -27,7 +27,7 @@ export async function chooseItem(request, catalog, remember = true) {
       <label>Szukaj nazwy PL/EN <input name="search" type="search" autocomplete="off"></label>
       <label>Gotowy przedmiot <select name="choice" required></select></label>
       <p data-match-count></p><label><input type="checkbox" name="remember" ${remember ? 'checked' : ''}> Zapamiętaj tę parę nazw w tym świecie</label>
-      <p>Pominięcie umiejętności wymaganej przez broń blokuje import tej broni. Możesz pominąć samą broń.</p>`,
+      <p>Talenty i zaklęcia zachowują dane wzorca; nie wymagają procentów. Pominięcie umiejętności wymaganej przez broń blokuje import tej broni.</p>`,
     render: (_event, dialog) => {
       const select = dialog.element.querySelector('[name="choice"]');
       const search = dialog.element.querySelector('[name="search"]');

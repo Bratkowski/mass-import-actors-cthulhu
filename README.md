@@ -1,8 +1,8 @@
 # Masowy import aktorów CoC7 — JSON i Items
 
-Moduł importuje **listę aktorów JSON**. Gotowe umiejętności, bronie i zaklęcia przypisujesz z zakładki **Items / Przedmioty** przez wyszukiwarkę albo przeciąganie. Procenty umiejętności pochodzą z danych konkretnego aktora.
+Moduł importuje **listę aktorów JSON**. Gotowe umiejętności, bronie, zaklęcia i talenty przypisujesz z zakładki **Items / Przedmioty** przez wyszukiwarkę albo przeciąganie. Procenty umiejętności pochodzą z danych konkretnego aktora.
 
-Wersja **0.3.0**, cel: Foundry VTT **14.364+ w linii 14** i system **CoC7 8.16**. Import wykonuje GM. Testy automatyczne nie zastępują weryfikacji w uruchomionym Foundry.
+Wersja **0.3.1**, cel: Foundry VTT **14.364+ w linii 14** i system **CoC7 8.16**. Import wykonuje GM. Testy automatyczne nie zastępują weryfikacji w uruchomionym Foundry.
 
 ## Instalacja na Forge
 
@@ -47,6 +47,7 @@ Gotowy przykład: [examples/actors.json](examples/actors.json). Nazwy mogą być
       { "name": "Rewolwer .38", "skill": "Broń Palna (Krótka)" }
     ],
     "spells": ["Znak Starszych Bogów"],
+    "talents": ["Przykładowy talent", { "name": "Drugi talent" }],
     "notes": "Notatka Strażnika"
   },
   {
@@ -63,6 +64,7 @@ Po przypisaniu tego samego Item `Listen` Jan otrzyma 60%, a Anna 80%. Wartość 
 - `skills` zawiera nazwy i nieujemne liczby `value` (również 0). Można wpisać np. `"60%"` zamiast liczby 60.
 - `weapons` zawiera nazwy wzorców. `skill` wskazuje nazwę umiejętności z listy tego aktora. Zamiast tego można podać `value`, np. `{"name":"Rewolwer .38","value":55}` — importer poprosi o wzorzec umiejętności wymaganej przez wybraną broń.
 - `spells` to lista nazw lub obiektów `{"name":"..."}`. Koszty i opis zaklęcia pochodzą ze wzorca.
+- `talents` to lista nazw lub obiektów `{"name":"..."}`. Pełne eksporty mogą też zawierać `items` z `"type":"talent"`. Talent wybierasz lub przeciągasz z Items; zachowuje opis, kategorię, efekty i mechanikę wzorca. Nie podaje się procentu talentu.
 - `notes` trafia do notatek Strażnika.
 - Dla pojazdu użyj `stats`, np. `{"name":"Samochód","stats":{"hp":30,"mov":10,"build":{"value":2,"current":2},"armor":{"value":3}}}`.
 
@@ -91,7 +93,7 @@ Możesz umieścić zawartość plików eksportu aktorów w jednej tablicy:
 
 Importer zachowa `system` i `img` aktora. Procent umiejętności odczyta z sumy `system.adjustments` (w przykładzie: 60%), a dla starszych danych z `system.value` albo liczbowego `system.base`. Zawartość `items` jest listą żądanych przedmiotów: do ich utworzenia przypisujesz wzorce z Items świata. Nie są przeszukiwane ekwipunki istniejących aktorów.
 
-Stare `_id` służą tylko do odtworzenia relacji broń–umiejętność. Nowi aktorzy i ich przedmioty dostają nowe ID. Nie przenosimy starego folderu, ownership, prototypeToken, metadanych ani flag wyboru arkusza. Niepuste efekty aktora oraz typy przedmiotów inne niż `skill`, `weapon`, `spell` blokują taki wiersz zamiast ginąć po cichu.
+Stare `_id` służą tylko do odtworzenia relacji broń–umiejętność. Nowi aktorzy i ich przedmioty dostają nowe ID. Nie przenosimy starego folderu, ownership, prototypeToken, metadanych ani flag wyboru arkusza. Niepuste efekty aktora oraz typy przedmiotów inne niż `skill`, `weapon`, `spell`, `talent` blokują taki wiersz zamiast ginąć po cichu.
 
 ## Dopasowania i przeciąganie
 

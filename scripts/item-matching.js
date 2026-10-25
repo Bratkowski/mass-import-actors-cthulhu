@@ -25,7 +25,7 @@ const SKILL_NAMES = [
 
 export function aliasKey(request) { return `${request.type}:${normalizeName(request.name)}`; }
 // Generic CoCIDs can identify different languages/specializations; never merge those by ID alone.
-export function stableCoCID(id) { return typeof id === 'string' && /^i\.(skill|weapon|spell)\./.test(id) && !/-(any|own)$/.test(id); }
+export function stableCoCID(id) { return typeof id === 'string' && /^i\.(skill|weapon|spell|talent)\./.test(id) && !/-(any|own)$/.test(id); }
 
 export function matchItem(request, catalog, aliases = {}) {
   const items = catalog.filter(item => item.type === request.type && isWorldItemUuid(item.uuid));
